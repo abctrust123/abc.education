@@ -23,7 +23,9 @@ function App() {
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/signin" element={<SignInPage />} />
       </Routes>
     </BrowserRouter>
   )
