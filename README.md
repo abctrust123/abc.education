@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# LearnHub - Education Marketplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, public-facing education marketplace UI where students can browse courses, teachers, categories, and offers. Built with a clean gradient green + white theme.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Vite** + **React** + **TypeScript**
+- **Tailwind CSS** for styling
+- **shadcn/ui** components (Radix UI primitives)
+- **Lucide React** icons
+- **Framer Motion** for subtle animations
+- **React Router** for navigation
+- **ESLint** with type-aware TypeScript, React, and React DOM rules
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Start development server
+npm run dev
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Build for production
+npm run build
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Preview production build
+npm run preview
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Run ESLint
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/     # UI, layout, shared, and page-specific components
+├── pages/           # Route pages (Home, Courses, Teachers, Offers, etc.)
+├── data/            # Demo content (courses, teachers, categories)
+├── lib/             # Utilities
+└── App.tsx          # Router setup
+```
+
+## Pages
+
+- **Home** – Hero, categories, featured courses/teachers, promo, bundles, testimonials
+- **Categories** – Browse by category
+- **Courses** – Listing with filters
+- **Course Details** – Full course view with tabs
+- **Teachers** – Teacher marketplace
+- **Teacher Profile** – Public teacher profile
+- **Offers** – Promotions and discounted courses
+- **About** – Platform info
+- **Sign Up** / **Sign In** – Auth pages (UI only)
+
+## Design
+
+- Primary colors: green (`#16a34a`), deep green (`#15803d`), soft green (`#dcfce7`)
+- Responsive: mobile, tablet, desktop
+- UI-only: no backend, auth logic, or API calls
