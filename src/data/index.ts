@@ -1,0 +1,5 @@
+export { categories } from "./categories"
+export { courses } from "./courses"
+export { teachers } from "./teachers"
+export { testimonials } from "./testimonials"
+export { offers } from "./offers"
