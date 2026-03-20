@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 const HomePage = lazy(() =>
   import("@/pages/HomePage").then((m) => ({ default: m.HomePage }))
@@ -35,9 +35,7 @@ const SignUpPage = lazy(() =>
 const SignInPage = lazy(() =>
   import("@/pages/SignInPage").then((m) => ({ default: m.SignInPage }))
 )
-const ProfilePage = lazy(() =>
-  import("@/pages/ProfilePage").then((m) => ({ default: m.ProfilePage }))
-)
+const AccountPage = lazy(() => import("@/pages/AccountPage"))
 
 function PageFallback() {
   return (
@@ -64,7 +62,11 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/signin" element={<SignInPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route
+            path="/profile"
+            element={<Navigate to="/account" replace />}
+          />
         </Routes>
       </Suspense>
     </BrowserRouter>

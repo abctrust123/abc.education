@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
-import { Menu, Search, User } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Sheet,
   SheetContent,
@@ -45,7 +44,7 @@ export function Navbar() {
           <span className="text-xl font-bold text-primary">LearnHub</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex flex-1 items-center justify-center gap-6 min-w-0">
           {navLinks.map((link) => (
             <Link
               key={link.to}
@@ -57,26 +56,18 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex flex-1 max-w-md mx-8">
-          <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search courses, teachers..."
-              className="pl-9 bg-muted/50"
-            />
-          </div>
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3 shrink-0">
           {session ? (
-            <Button variant="ghost" size="icon" asChild aria-label="Profile">
-              <Link to="/profile">
-                <User className="h-5 w-5" />
-              </Link>
+            <Button
+              variant="outline"
+              className="rounded-lg border-primary bg-background text-primary shadow-sm hover:bg-primary-soft/50 hover:text-primary-deep"
+              asChild
+            >
+              <Link to="/account">Account</Link>
             </Button>
           ) : (
             <Button variant="ghost" asChild>
-              <Link to="/sign-up">Sign Up</Link>
+              <Link to="/sign-in">Sign In</Link>
             </Button>
           )}
           <Button asChild>
@@ -107,16 +98,19 @@ export function Navbar() {
               ))}
               <div className="pt-4 border-t border-border space-y-2">
                 {session ? (
-                  <Button className="w-full" variant="ghost" asChild>
-                    <Link to="/profile" onClick={() => setMobileOpen(false)}>
-                      <User className="h-4 w-4 mr-2" />
-                      Profile
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-lg border-primary bg-background text-primary shadow-sm hover:bg-primary-soft/50 hover:text-primary-deep"
+                    asChild
+                  >
+                    <Link to="/account" onClick={() => setMobileOpen(false)}>
+                      Account
                     </Link>
                   </Button>
                 ) : (
-                  <Button className="w-full" asChild>
-                    <Link to="/sign-up" onClick={() => setMobileOpen(false)}>
-                      Sign Up
+                  <Button className="w-full" variant="ghost" asChild>
+                    <Link to="/sign-in" onClick={() => setMobileOpen(false)}>
+                      Sign In
                     </Link>
                   </Button>
                 )}
