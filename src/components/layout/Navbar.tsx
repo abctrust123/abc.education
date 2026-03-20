@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Menu, Search } from "lucide-react"
+import { Menu, Search, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -9,7 +9,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import type { Session } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase"
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -22,6 +24,19 @@ const navLinks = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data: { session: s } }) => {
+      setSession(s)
+    })
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -53,9 +68,17 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" asChild>
-            <Link to="/sign-up">Sign Up</Link>
-          </Button>
+          {session ? (
+            <Button variant="ghost" size="icon" asChild aria-label="Profile">
+              <Link to="/profile">
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="ghost" asChild>
+              <Link to="/sign-up">Sign Up</Link>
+            </Button>
+          )}
           <Button asChild>
             <Link to="/sign-up">Get Started</Link>
           </Button>
@@ -83,11 +106,20 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-border space-y-2">
-                <Button className="w-full" asChild>
-                  <Link to="/sign-up" onClick={() => setMobileOpen(false)}>
-                    Sign Up
-                  </Link>
-                </Button>
+                {session ? (
+                  <Button className="w-full" variant="ghost" asChild>
+                    <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                      <User className="h-4 w-4 mr-2" />
+                      Profile
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button className="w-full" asChild>
+                    <Link to="/sign-up" onClick={() => setMobileOpen(false)}>
+                      Sign Up
+                    </Link>
+                  </Button>
+                )}
                 <Button variant="secondary" className="w-full" asChild>
                   <Link to="/sign-up" onClick={() => setMobileOpen(false)}>
                     Get Started

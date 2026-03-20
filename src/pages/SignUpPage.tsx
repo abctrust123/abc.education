@@ -1,11 +1,19 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Eye, EyeOff, Check, Circle } from "lucide-react"
+import { Eye, EyeOff, Check, Circle, X } from "lucide-react"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { signUpWithEmail } from "@/lib/auth"
 import {
   isValidEmail,
@@ -22,7 +30,7 @@ export function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [passwordTouched, setPasswordTouched] = useState(false)
 
   const passwordChecks = checkPasswordRequirements(password)
@@ -64,31 +72,12 @@ export function SignUpPage() {
       return
     }
 
-    setSuccess(true)
-    setTimeout(() => navigate("/sign-in"), 1500)
+    setShowSuccessModal(true)
   }
 
-  if (success) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1 py-12 lg:py-16 flex items-center justify-center">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Card className="max-w-md mx-auto border-primary/30 bg-primary-soft/30">
-              <CardContent className="p-8 text-center">
-                <p className="text-foreground font-medium">
-                  Account created successfully. Please sign in.
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Redirecting...
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
+  function dismissSuccessModal() {
+    setShowSuccessModal(false)
+    void navigate("/sign-in")
   }
 
   return (
@@ -282,6 +271,42 @@ export function SignUpPage() {
         </div>
       </main>
       <Footer />
+
+      <Dialog
+        open={showSuccessModal}
+        onOpenChange={(open) => {
+          if (!open) return
+        }}
+      >
+        <DialogContent
+          className="sm:max-w-md"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          <button
+            type="button"
+            onClick={dismissSuccessModal}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <DialogHeader>
+            <DialogTitle>Signup Successful</DialogTitle>
+            <DialogDescription className="text-base text-foreground pt-2">
+              Please check your inbox to confirm your email.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-row gap-2 sm:justify-end">
+            <Button type="button" variant="outline" onClick={dismissSuccessModal}>
+              Close
+            </Button>
+            <Button type="button" onClick={dismissSuccessModal}>
+              OK
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

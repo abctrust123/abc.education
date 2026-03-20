@@ -35,6 +35,9 @@ const SignUpPage = lazy(() =>
 const SignInPage = lazy(() =>
   import("@/pages/SignInPage").then((m) => ({ default: m.SignInPage }))
 )
+const ProfilePage = lazy(() =>
+  import("@/pages/ProfilePage").then((m) => ({ default: m.ProfilePage }))
+)
 
 function PageFallback() {
   return (
@@ -61,6 +64,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/signin" element={<SignInPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
